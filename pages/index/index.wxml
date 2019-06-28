@@ -1,0 +1,218 @@
+<!-- 顶部导航栏 -->
+<scroll-view wx:if='{{!(TabCur==2)}}' scroll-x class="nav text-center" style='margin-top:{{StatusBar+28}}rpx; right:50rpx;' bindtap="tabSelect">
+  <view class="cu-item {{index==TabCur?'text-white text-bold text-xxl cur':'text-grey text-lg'}}" wx:for="{{navList}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+    {{item}}
+  </view>
+</scroll-view>
+
+
+<!-- 上传视频 -->
+<image src='../images/video.png' class='video-icon' style='margin-top:40rpx;' bindtap='selectVideo'> </image>
+
+<swiper indicator-dots="{{false}}" vertical="{{false}}" class='swiper' bindchange="switchTab" circular='{{true}}'>
+  <!-- 我的页面 -->
+  <swiper-item style='margin-top:{{CustomBar}}px;'>
+    <view class="menu-container" style='margin: {{StatusBar+45}}rpx 80rpx 10rpx;'>
+      <view class='menu-container-left'>
+        <view wx:if="{{!hasUserInfo && canIUse}}">
+          <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class='cu-avatar xl round solids' style="background-image:url({{none_avatarUrl}})"> </button>
+          <view class="text-center text-white" style='padding-top: 20rpx;'>点击登陆</view>
+        </view>
+        <view wx:else>
+          <view class="text-center cu-avatar xl round solids" style="background-image:url({{userInfo.avatarUrl}})"></view>
+          <view class="text-center text-white" style='padding-top: 20rpx;'>{{userInfo.nickName}}</view>
+        </view>
+      </view>
+      <view class="menu-container-right">
+        <view class="grid col-3  text-center margin-top-ls">
+          <view class="text-lg text-blue">1</view>
+          <view class="text-lg text-green">2</view>
+          <view class="text-lg text-red">3</view>
+          <view class="text-white text-fg ">关注</view>
+          <view class="text-white text-fg ">获赞</view>
+          <view class="text-white text-fg ">收藏</view>
+        </view>
+        <view style='margin-top:30rpx;'>
+          <button class='edit-info'>编辑资料</button>
+          <button class='setting cuIcon-settings text-xxl margin-left'></button>
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar">
+      <view class="action sub-title">
+        <text class="text-xxl text-bold text-blue">我的发布</text>
+        <text class="text-ABC text-blue">MINE</text>
+      </view>
+    </view>
+    <!-- clientHeight+200+StatusBar+CustomBar -->
+    <scroll-view scroll-y style="width: 100%;height:{{clientHeight+StatusBar*4+CustomBar*2}}rpx;" class="my-release">
+      <view>
+        <view class="lefts" style='margin-left:25rpx;'>
+          <block wx:for="{{my_release}}" wx:key="">
+            <template is="item" data="{{...item}}" wx:if="{{index%2==0}}"></template>
+          </block>
+        </view>
+        <view class="rights" style='margin-right:25rpx;'>
+          <block wx:for="{{my_release}}" wx:key="">
+            <template is="item" data="{{...item}}" wx:if="{{index%2==1}}"></template>
+          </block>
+        </view>
+      </view>
+
+      <template name="item">
+        <view class="items" bindtap='myVideoDetail' data-id='{{id}}'>
+          <image class="item-imgs" src="{{coverPath}}" mode="widthFix"></image>
+          <view class="item-title-boxs">
+            <view url="url" class="item-titles">{{videoDesc}}</view>
+          </view>
+        </view>
+      </template>
+    </scroll-view>
+  </swiper-item>
+
+
+
+  <!-- 发现页面 -->
+  <swiper-item style='margin-top:{{CustomBar}}px;'>
+    <view class="margin-xl padding-xl bg-white radius shadow shadow-lg">
+      <view class="flex justify-center">
+        当前无未读消息
+      </view>
+    </view>
+
+
+    <view class="cu-bar solid-bottom margin-top" style='margin-top:50rpx;'>
+      <view class="action text-white">
+        <text class="cuIcon-title text-white "></text> 消息列表
+      </view>
+    </view>
+
+    <view>
+      <view class="cu-list menu-avatar">
+        <view class="cu-item " style=' background-color: rgb(109, 103, 103);'>
+          <view class="cu-avatar round lg" style="background-image:url({{none_avatarUrl}});"></view>
+          <view class="content">
+            <view class="text-grey text-white">视频标题：2019.6.28</view>
+            <view class="text-gray text-sm flex">
+              <text class="text-cut">赞了你的视频</text>
+            </view>
+          </view>
+          <view class="action">
+            <view class="text-grey text-xs">22:20</view>
+            <!-- <view class="cu-tag round bg-grey sm">5</view> -->
+          </view>
+        </view>
+        <view class="cu-item" style=' background-color: rgb(109, 103, 103);'>
+          <view class="cu-avatar round lg" style="background-image:url({{none_avatarUrl}});">
+            <!-- <view class="cu-tag badge">99+</view> -->
+          </view>
+          <view class="content">
+            <view class="text-grey">
+              <text class="text-cut text-white">视频标题：2019.6.28</text>
+              <!-- <view class="cu-tag round bg-orange sm">推荐</view> -->
+            </view>
+            <view class="text-gray text-sm flex">
+              <text class="text-cut">赞了你的视频</text>
+            </view>
+          </view>
+          <view class="action">
+            <view class="text-grey text-xs">22:20</view>
+            <!-- <view class="cuIcon-notice_forbid_fill text-gray"></view> -->
+          </view>
+        </view>
+        <view class="cu-item " style=' background-color: rgb(109, 103, 103);'>
+          <view class="cu-avatar round lg" style="background-image:url({{none_avatarUrl}});"></view>
+          <view class="content">
+            <view class="text-pink">
+              <text class="text-cut text-white">视频标题：2019.6.28</text>
+            </view>
+            <view class="text-gray text-sm flex">
+              <text class="text-cut">收藏你的视频</text>
+            </view>
+          </view>
+          <view class="action">
+            <view class="text-grey text-xs">22:20</view>
+            <!-- <view class="cu-tag round bg-red sm">5</view> -->
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </swiper-item>
+
+
+
+  <!-- 视频播放页面 -->
+  <swiper-item>
+    <swiper indicator-dots="{{false}}" vertical="{{true}}" class='video-swiper' bindchange="video_switchTab" circular='{{true}}'>
+      <block class="ch ch1" wx:for="{{curVideoList}}" wx:for-index="index" wx:key='' wx:item='item'>
+        <swiper-item catchtouchmove="{{message_flag?'catchTouchMove':''}}">
+          <video danmu-list="{{danmu}}" danmu-btn enable-danmu src="{{item.videoPath}}" objectFit='contain' controls='false' id="video{{index}}" play-btn-position="center" binderror="{{load_error}}" class="{{message_flag?'video-half':'video-full'}}"></video>
+          <cover-view class='video-info' wx:if='{{!message_flag}}'>
+            <cover-view>
+              <cover-image class='profile_image' src='{{item.avatarUrl}}'></cover-image>
+              <cover-view class='name'>{{item.publisherNickname}}</cover-view>
+            </cover-view>
+            <cover-view class='videoDesc'>{{item.videoDesc}}</cover-view>
+            <cover-view>
+              <cover-view class='input' bindtap='switchMessage' data-id='{{item.id}}' data-index='{{index}}'>说点啥吧。。。</cover-view>
+              <cover-image wx:if='{{item.isLike==1}}' class='like' bindtap='cancel_like' data-id='{{item.id}}' data-index='{{index}}' src="../images/like.png"></cover-image>
+              <cover-image wx:else class='like' bindtap='add_like' data-id='{{item.id}}' data-index='{{index}}' src="../images/unlike.png"></cover-image>
+              <cover-view class='likeCount'>{{item.likeCount}}</cover-view>
+              <cover-image class='message' src="../images/message.png" bindtap='switchMessage' data-id='{{item.id}}' data-index='{{index}}'></cover-image>
+              <cover-view class='commentCount' bindtap='switchMessage' data-id='{{item.id}}' data-index='{{index}}'>{{item.commentCount}}</cover-view>
+            </cover-view>
+          </cover-view>
+
+          <view class='message-list-head'>
+            <text class="cuIcon-refresh message-list-head-refresh" bindtap='refresh_parents_comments' data-id='{{item.id}}' data-index='{{index}}'></text>
+            <text class='message-list-head-text'>共有{{cur_comment_list.length}}条回复</text>
+            <text class="cuIcon-close message-list-head-close" bindtap='switchMessage' data-id='{{item.id}}' data-index='{{index}}'></text>
+          </view>
+          <scroll-view class="message-list" scroll-y style="width: 100%" wx:if='{{message_flag}}'>
+
+            <!-- 评论列表 -->
+            <view class="cu-list menu-avatar" wx:for='{{cur_comment_list}}' wx:key>
+              <view class="cu-item " >
+                <view class="cu-avatar round lg" style="background-image:url({{item.avatarUrlOfFromUser}});"></view>
+                <view class="content">
+                  <view class="text-grey text-black">{{item.nicknameOfFromUser}}</view>
+                  <view class="text-gray text-sm flex text-lg">
+                    <text class="text-s text-grey">{{item.updateTime}}</text>
+                  </view>
+                </view>
+              </view>
+              <view class='comment-card' bindtap='switchReply'>{{item.comment}}</view>
+            </view>
+            <!-- 评论框 -->
+            <view class='comment-box' wx:if='{{reply_flag}}'>
+              <view style='float:left;'>{{reply_content_num}}/100字</view>
+              <button class='primary btn hollow bg-gradual-blue' bindtap='switchReply' style='float:right;width:150rpx;border-radius:50rpx;z-index:9999;font-size:26rpx;'>取消</button>
+              <button class='primary btn hollow bg-gradual-green' bindtap='add_comments' style='float:right;width:150rpx;border-radius:50rpx;z-index:9999;font-size:26rpx;' data-id='{{item.id}}' data-index='{{index}}'>发布</button>
+              <textarea bindinput='comment_input' maxlength='100'></textarea>
+            </view>
+            <view style=' padding-top:150rpx;'></view>
+
+
+
+            <view class='message-list-foot-chat' bindtap='switchReply'>
+              <image class='message-list-foot-avatar' src='{{userInfo.avatarUrl}}'></image>
+              <view class='message-list-foot-ipout shadow'>
+                <text style='font-size:32rpx;margin:3rpx 30rpx;'>评论一下、我顶你上去</text>
+                <text class="cuIcon-emojifill text-grey" style=''></text>
+              </view>
+              <view class=" message-list-foot-send shadow">发送</view>
+
+            </view>
+
+
+
+
+            <!-- <button class='primary btn hollow bg-gradual-blue' bindtap='switchReply' style='position:fixed;left:0rpx;width:50%;border-radius:0rpx;z-index:9999;bottom:0rpx;'>说点啥</button>
+            <button class='primary btn hollow bg-gradual-green' bindtap='switchMessage' style='position:fixed;right:0rpx;width:50%;border-radius:0rpx;z-index:9999;bottom:0rpx;'>隐藏</button> -->
+          </scroll-view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </swiper-item>
+</swiper>

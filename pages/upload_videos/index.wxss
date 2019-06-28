@@ -1,0 +1,38 @@
+page {
+  background-color: white;
+}
+
+.video {
+  width: 90%;
+  height: 25vh;
+  margin: 40rpx 5% 0rpx;
+}
+
+.comment-container {
+  width: 90%;
+  height: 250rpx;
+  margin: 0rpx 5%;
+  border-bottom: 1rpx dotted grey;
+}
+
+textarea {
+  width: 94%;
+  height: 200rpx;
+  margin: 40rpx 3% 10rpx;
+  letter-spacing: 4rpx;
+}
+
+.count {
+  width: 130rpx;
+  margin-right: 3%;
+  float: right;
+  text-align: right;
+  color: grey;
+  letter-spacing: 5rpx;
+}
+
+.submit {
+  width: 70%;
+  margin: 100rpx 50rpx;
+  text-align: center;
+}

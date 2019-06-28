@@ -1,0 +1,14 @@
+<cu-custom bgColor="bg-gradual-grey" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <!-- <view slot="content"></view> -->
+</cu-custom>
+
+
+<video class='video' src='{{video_info.videoPath}}'></video>
+
+<text class='videoDesc'>{{video_info.videoDesc}}</text>
+
+<view class='video_info'>
+  <image class='avatar' src='{{video_info.avatarUrl}}'></image>
+  <view class='publisherNickname'>{{video_info.publisherNickname}}</view>
+</view>

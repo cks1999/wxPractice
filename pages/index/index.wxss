@@ -1,0 +1,405 @@
+page {
+  background-color: rgb(109, 103, 103);
+}
+
+/* 顶部导航栏 */
+
+.nav {
+  white-space: nowrap;
+  margin-top: 0rpx;
+  position: fixed;
+}
+
+/* 左上角视频icon */
+
+.video-icon {
+  position: fixed;
+  z-index: 9999;
+  width: 85rpx;
+  height: 85rpx;
+  border-radius: 125rpx;
+  left: 35rpx;
+  top: 20rpx;
+}
+
+.bottom {
+  bottom: 0vh;
+  width: 100%;
+  position: fixed;
+}
+
+/* 我的页面 */
+
+.menu-container {
+  width: auto;
+  height: 200rpx;
+}
+
+.edit-info {
+  width: 300rpx;
+  border-radius: 300rpx;
+  height: auto;
+  font-size: 26rpx;
+  color: rgb(71, 67, 67);
+  background-color: white;
+  float: left;
+}
+
+.setting {
+  float: right;
+  width: 80rpx;
+  height: auto;
+  color: rgb(71, 67, 67);
+  background-color: white;
+  border-radius: 60rpx;
+  text-align: center;
+  font-size: 26rpx;
+}
+
+.menu-container-left {
+  float: left;
+}
+
+.menu-container-right {
+  float: right;
+}
+
+.card-container {
+  width: 50%;
+  margin: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100vh;
+}
+
+.my-release {
+  /* height: auto; */
+}
+
+/* 视频页面 */
+
+.video-swiper {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  position: fixed;
+}
+
+.video-half {
+  width: 100%;
+  height: 30%;
+}
+
+.video-full {
+  width: 100%;
+  height: 100%;
+}
+
+video {
+  height: 100%;
+  width: 100%;
+}
+
+.video-info {
+  bottom: 10rpx;
+  height: auto;
+  width: 98%;
+  /* border: 2rpx solid red; */
+  z-index: 9999;
+  position: fixed;
+}
+
+.profile_image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 100rpx;
+  /* color: red; */
+  margin: 25rpx 35rpx;
+  float: left;
+}
+
+.name {
+  width: 350rpx;
+  height: auto;
+  font-size: 38rpx;
+  color: white;
+  margin: 40rpx 10rpx;
+}
+
+.videoDesc {
+  width: 80%;
+  height: 125rpx;
+  margin: 10rpx 10%;
+  font-size: 32rpx;
+  text-indent: 32rpx;
+  letter-spacing: 3rpx;
+  color: white;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input {
+  float: left;
+  margin: 10rpx 25rpx 20rpx;
+  font-size: 30rpx;
+  height: 50rpx;
+  width: 310rpx;
+  border-radius: 40rpx;
+  padding: 10rpx;
+  border: 2rpx solid grey;
+  text-align: center;
+}
+
+.like {
+  color: white;
+  /* bottom: 10rpx; */
+  width: 75rpx;
+  height: auto;
+  float: left;
+}
+
+.likeCount {
+  color: white;
+  margin: 20rpx 25rpx 10rpx;
+  width: 50rpx;
+  height: auto;
+  float: left;
+}
+
+.message {
+  width: 65rpx;
+  height: auto;
+  float: left;
+  margin-top: 10rpx;
+}
+
+.commentCount {
+  color: white;
+  width: 50rpx;
+  height: auto;
+  float: left;
+  margin: 20rpx 25rpx 10rpx;
+}
+
+.message-list {
+  bottom: 0rpx;
+  height: 64%;
+  width: 100%;
+  position: fixed;
+  z-index: 9999;
+  background-color: white;
+  border-top: 0.5rpx solid rgb(230, 227, 227);
+}
+
+.message-list-head {
+  height: 6%;
+  width: 100%;
+  font-size: 40rpx;
+  background-color: white;
+  border-top-left-radius: 50rpx;
+  border-top-right-radius: 50rpx;
+  text-align: center;
+}
+
+.message-list-head-refresh {
+  height: 60rpx;
+  width: 60rpx;
+  float: left;
+  margin: 20rpx 30rpx;
+}
+
+.message-list-head-text {
+  margin-bottom: 50rpx;
+  font-size: 42rpx;
+  margin-left: 30rpx;
+}
+
+.message-list-head-close {
+  height: 60rpx;
+  width: 60rpx;
+  float: right;
+  margin: 20rpx 30rpx;
+}
+
+.message-list-foot-chat {
+  background-color: white;
+  position: fixed;
+  bottom: 0rpx;
+}
+
+.message-list-foot-avatar {
+  height: 75rpx;
+  width: 75rpx;
+  border-radius: 75rpx;
+  float: left;
+  margin: 20rpx 10rpx 20rpx 30rpx;
+}
+
+.message-list-foot-ipout {
+  width: 470rpx;
+  height: 65rpx;
+  float: left;
+  margin: 25rpx 30rpx;
+  /* text-align: center; */
+  font-size: 30rpx;
+  border: 1rpx solid rgb(218, 211, 211);
+  border-radius: 30rpx;
+}
+
+.message-list-foot-send {
+  width: 70rpx;
+  height: auto;
+  margin: 40rpx auto;
+  float: right;
+  font-size: 32rpx;
+}
+
+.comment-card {
+  width: 500rpx;
+  height: auto;
+  font-size: 30rpx;
+  /* background-color: rgb(206, 205, 205); */
+  margin-left: 150rpx;
+  text-align: left;
+  text-indent: 30rpx;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  /* font-family: 'PingFang SC-Medium'; */
+  color: #1e1e1e;
+  /* line-height: 27rpx; */
+  /* border-bottom: 0.1rpx solid rgb(231, 228, 228); */
+}
+
+/* 评论框 */
+
+.comment-box {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  box-sizing: border-box;
+  padding: 3%;
+}
+
+.title image {
+  display: inline-block;
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: middle;
+  margin: -7rpx 10rpx 0 0;
+}
+
+.title text {
+  font-size: 30rpx;
+}
+
+.comment-bottom {
+  position: fixed;
+  display: inline-block;
+}
+
+.comment-box textarea {
+  /* padding-bottom: 450rpx; *//* display: block; */
+  width: 100%;
+  height: 140px;
+  margin: 20rpx 0;
+  margin-top: 100rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #ddd;
+  border-radius: 5rpx;
+  padding: 10rpx;
+  font-size: 28rpx;
+}
+
+/* 瀑布 */
+
+.contents {
+  margin: 0 30rpx;
+  text-align: justify;
+}
+
+.items {
+  background-color: #fff;
+  margin: 1%;
+  margin-bottom: 20rpx;
+  display: inline-block;
+  border-radius: 20rpx;
+  width: 100%;
+}
+
+.item-imgs {
+  width: 100%;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+}
+
+.item-titles {
+  font-size: 24rpx;
+  text-indent: 15rpx;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-family: 'PingFang SC-Medium';
+  color: #1e1e1e;
+  margin: 15rpx;
+  line-height: 27rpx;
+}
+
+.items .names {
+  display: flex;
+  padding: 0 15rpx;
+  margin-top: 20rpx;
+  padding-bottom: 10rpx;
+  align-items: center;
+  font-size: 22rpx;
+  color: #1e1e1e;
+  font-family: 'PingFang SC-Medium';
+}
+
+.names image {
+  flex: 0 0 30rpx;
+}
+
+.item-title-boxs {
+  display: flex;
+  position: relative;
+}
+
+.name-titles {
+  flex: 1;
+  margin-left: 18rpx;
+  margin-right: 20rpx;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.names text:last-child {
+  flex: 0 0 30rpx;
+  color: #c4c4c4;
+  text-decoration: underline;
+  line-height: 10rpx;
+}
+
+.lefts, .rights {
+  display: inline-block;
+  vertical-align: top;
+  width: 45%;
+}
+
+.rights {
+  float: right;
+}

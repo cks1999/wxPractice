@@ -1,0 +1,42 @@
+<!--pages/upload_videos/index.wxml-->
+<view class='cu-custom'>
+  <view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <navigator class='action' open-type="navigateBack" delta="1" hover-class="none">
+      <text class='cuIcon-back'></text> 返回
+    </navigator>
+    <view class='content' style='top:{{StatusBar}}px;'>视频上传</view>
+  </view>
+</view>
+
+
+<view class='comment-container' style='margin-top:{{StatusBar+CustomBar}}px;'>
+  <textarea placeholder="请输入描述信息" bindinput='contentInput' maxlength="50" />
+  <text class='count'>{{text_count}}/50字</text>
+</view>
+
+<!-- 视频预览 -->
+<video src='{{src}}' class='video'></video>
+
+<!-- 规章制度 -->
+<view>
+  <view class="margin-xl padding-xl bg-white radius shadow shadow-lg">
+    <view class="flex justify-center">
+      我自觉遵守xxxxxxxxxxx
+      <!-- 视频：{{size}}B -->
+    </view>
+  </view>
+  <view class="cu-bar bg-white">
+    <view class="action">
+      <text class="cuIcon-title text-blue"></text>规章制度
+    </view>
+    <view class="action">
+      <text class="text-df margin-right-sm">我已阅读</text>
+      <switch class="sm" bindchange="setReading"></switch>
+    </view>
+  </view>
+</view>
+
+<view class='padding'>
+  <button wx:if='{{submit_flag}}' class="primary btn hollow bg-gradual-blue " type="primary " bindtap='uploadvideo'>立即发布</button>
+  <button wx:else class="primary btn hollow bg-grey " type="primary " bindtap='uploadvideo'>请先阅读发布事项</button>
+</view>
