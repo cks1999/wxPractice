@@ -8,7 +8,7 @@
 <!-- 上传视频 -->
 <image src='../images/video.png' class='video-icon' style='margin-top:40rpx;' bindtap='selectVideo'> </image>
 
-<swiper indicator-dots="{{false}}" vertical="{{false}}" class='swiper' bindchange="switchTab" circular='{{true}}'>
+<swiper indicator-dots="{{false}}" vertical="{{false}}" class='swiper' bindchange="switchTab" circular='{{false}}'>
   <!-- 我的页面 -->
   <swiper-item style='margin-top:{{CustomBar}}px;'>
     <view class="menu-container" style='margin: {{StatusBar+45}}rpx 80rpx 10rpx;'>
@@ -24,12 +24,12 @@
       </view>
       <view class="menu-container-right">
         <view class="grid col-3  text-center margin-top-ls">
-          <view class="text-lg text-blue">1</view>
-          <view class="text-lg text-green">2</view>
-          <view class="text-lg text-red">3</view>
-          <view class="text-white text-fg ">关注</view>
+          <view class="text-lg text-blue">{{my_release.length}}</view>
+          <view class="text-lg text-green">{{userInfos.receiveLikeCounts}}</view>
+          <view class="text-lg text-red" bindtap='bindMyLike'>{{my_like.length}}</view>
+          <view class="text-white text-fg ">发布</view>
           <view class="text-white text-fg ">获赞</view>
-          <view class="text-white text-fg ">收藏</view>
+          <view class="text-white text-fg " bindtap='bindMyLike'>喜欢</view>
         </view>
         <view style='margin-top:30rpx;'>
           <button class='edit-info'>编辑资料</button>
@@ -68,72 +68,40 @@
         </view>
       </template>
     </scroll-view>
+
   </swiper-item>
 
   <!-- 发现页面 -->
   <swiper-item style='margin-top:{{CustomBar}}px;'>
-    <view class="margin-xl padding-xl bg-white radius shadow shadow-lg">
+    <view class="margin-xl padding-xl bg-white radius shadow shadow-lg" style='margin-bottom:10rpx;'>
       <view class="flex justify-center">
-        当前无未读消息
+        当前有{{received_list.length}}条评论消息
       </view>
     </view>
 
-    <view class="cu-bar solid-bottom margin-top" style='margin-top:50rpx;'>
+    <view class="cu-bar solid-bottom " style='margin-top:20rpx;'>
       <view class="action text-white">
         <text class="cuIcon-title text-white "></text> 消息列表
-        <text class="cuIcon-refresh text-white "></text>
+        <text class="cuIcon-refresh text-white " bindtap='get_list_of_received'></text>
       </view>
     </view>
-
-    <view>
+    <scroll-view scroll-y style="width: 94%;height:100%;margin:0rpx 3%;">
       <view class="cu-list menu-avatar">
-        <view class="cu-item " style=' background-color: rgb(109, 103, 103);'>
-          <view class="cu-avatar round lg" style="background-image:url({{none_avatarUrl}});"></view>
+        <view class="cu-item " style=' background-color: rgb(109, 103, 103);' wx:for='{{received_list}}'>
+          <view class="cu-avatar round lg" style="background-image:url({{item.avatarUrlOfFromUser}});"></view>
           <view class="content">
-            <view class="text-grey text-white">视频标题：2019.6.28</view>
+            <view class="text-grey text-white">{{item.nicknameOfFromUser}}</view>
             <view class="text-gray text-sm flex">
-              <text class="text-cut">赞了你的视频</text>
+              <text class="text-cut">{{item.comment}}</text>
             </view>
           </view>
           <view class="action">
-            <view class="text-grey text-xs">22:20</view>
-          </view>
-        </view>
-        <view class="cu-item" style=' background-color: rgb(109, 103, 103);'>
-          <view class="cu-avatar round lg" style="background-image:url({{none_avatarUrl}});">
-          </view>
-          <view class="content">
-            <view class="text-grey">
-              <text class="text-cut text-white">视频标题：2019.6.28</text>
-            </view>
-            <view class="text-gray text-sm flex">
-              <text class="text-cut">赞了你的视频</text>
-            </view>
-          </view>
-          <view class="action">
-            <view class="text-grey text-xs">22:20</view>
-          </view>
-        </view>
-        <view class="cu-item " style=' background-color: rgb(109, 103, 103);'>
-          <view class="cu-avatar round lg" style="background-image:url({{none_avatarUrl}});"></view>
-          <view class="content">
-            <view class="text-pink">
-              <text class="text-cut text-white">视频标题：2019.6.28</text>
-            </view>
-            <view class="text-gray text-sm flex">
-              <text class="text-cut">收藏你的视频</text>
-            </view>
-          </view>
-          <view class="action">
-            <view class="text-grey text-xs">22:20</view>
+            <view class="text-grey text-xs"  >{{item.updateTime}}</view>
           </view>
         </view>
       </view>
-
-    </view>
+    </scroll-view>
   </swiper-item>
-
-
 
   <!-- 视频播放页面 -->
   <swiper-item>
@@ -143,7 +111,7 @@
           <video danmu-list="{{danmu}}" danmu-btn enable-danmu src="{{item.videoPath}}" objectFit='contain' controls='false' id="video{{index}}" play-btn-position="center" binderror="{{load_error}}" class="{{message_flag?'video-half':'video-full'}}"></video>
           <cover-view class='video-info' wx:if='{{!message_flag}}'>
             <cover-view>
-              <cover-image class='profile_image' src='{{item.avatarUrl}}'></cover-image>
+              <cover-image class='profile_image' src='{{item.avatarUrl}}' bindtap='bindAvatar' data-id='{{item.userId}}' data-name='{{item.publisherNickname}}'></cover-image>
               <cover-view class='name'>{{item.publisherNickname}}</cover-view>
             </cover-view>
             <cover-view class='videoDesc'>{{item.videoDesc}}</cover-view>

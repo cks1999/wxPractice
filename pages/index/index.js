@@ -2,26 +2,7 @@ const app = getApp()
 var util = require('../../utils/util');
 Page({
   data: {
-    danmu: [{
-        text: '第一个', //弹幕内容
-        color: '#ff0000', //弹幕颜色
-        time: ~~(Math.random() * 3) //弹幕播放的时间s 必须是整数
-      },
-      {
-        text: '这是一条弹幕',
-        color: '#00f',
-        time: ~~(Math.random() * 3)
-      },
-      {
-        text: '这是一条弹幕',
-        color: '#0f0',
-        time: ~~(Math.random() * 3)
-      }, {
-        text: '第一个', //弹幕内容
-        color: '#ff0000', //弹幕颜色
-        time: ~~(Math.random() * 3) //弹幕播放的时间s 必须是整数
-      }
-    ],
+    danmu: [], //弹幕
     StatusBar: app.globalData.StatusBar, //顶部状态栏高度
     CustomBar: app.globalData.CustomBar, //顶部导航栏高度
     navList: ['我的', '消息', '视频'], //导航栏
@@ -44,22 +25,112 @@ Page({
     reply_flag: false, //回复框打开flag
     comment_input: '', //回复输入信息
     cur_comment_list: [], //回复列表
-    reply_content_num: 0 //当前评论数量
+    reply_content_num: 0, //当前评论数量
+    my_like: 0,
+    received_list:[]
   },
-
+pause_cur_video:function(){
+  wx.createVideoContext("video" + this.data.pre_index).pause(); //停止视频
+},
   //生命周期函数
   onLoad: function() {
     this.login(); //登陆
     this.getMyVideoList() //获取我的视频
     this.getVideoList() //获取视频列表
+    this.get_user_info()
+    this.get_my_like()
+    this.get_list_of_received()
   },
+
+  //获取喜欢视频列表
+  get_list_of_received: function () {
+    var that = this
+    wx._request.request({
+      url: '/comments/list_of_received',
+      method: 'GET',
+      data: {
+        pageSize: 100,
+        pageNum: 1
+      },
+      success: (res) => {
+        console.log('list',res.data.list)
+
+        let tmp = res.data.list
+        for (var i = 0; i < tmp.length; i++) {
+          var stamp = tmp[i].updateTime
+          tmp[i].updateTime = util.formatTime(stamp, 'Y-M-D h:m:s')
+        }
+        that.setData({
+          received_list: tmp
+        })
+      }
+    })
+  },
+  // 获取个人信息
+  get_user_info: function() {
+    var that = this
+    wx._request.request({
+      url: '/user/get_user_info',
+      method: 'GET',
+      data: {
+        userId: wx.getStorageSync("userId"),
+      },
+      success: (res) => {
+        that.setData({
+          userInfos: res.data
+        })
+      }
+    })
+  },
+
+  // 获取用户喜欢视频列表
+  get_my_like: function() {
+    var that = this
+    wx._request.request({
+      url: '/users_like/list',
+      method: 'GET',
+      data: {
+        pageNum: 1,
+        pageSize: 100
+      },
+      success: (res) => {
+        console.log('my like ', res.data.list)
+        that.setData({
+          my_like: res.data.list
+        })
+      }
+    })
+  },
+
+
+
+
   //刷新我的视频
   my_Release_Refresh: function() {
+    this.get_user_info()
+    this.get_my_like()
     this.getMyVideoList()
+  },
+
+  // 我喜欢的视频列表
+  bindMyLike: function(e) {
+    this.pause_cur_video()
+    wx.navigateTo({
+      url: '../video_list/index?list=' + JSON.stringify(this.data.my_like)
+    })
   },
   // 每次返回主頁面，刷新我的發佈視頻列表
   onShow: function() {
     this.getMyVideoList()
+  },
+
+  // 点击头像
+  bindAvatar: function(e) {
+    console.log(e.currentTarget.dataset.id)
+    this.pause_cur_video()
+    wx.navigateTo({
+      url: '../video_list/index?id=' + e.currentTarget.dataset.id + '&name=' + e.currentTarget.dataset.name,
+    })
   },
   //获取自己视频列表
   getMyVideoList: function() {
@@ -72,7 +143,6 @@ Page({
         pageSize: 100
       },
       success: (res) => {
-        console.log('我的视频列表', res.data.list)
         that.setData({
           my_release: res.data.list
         })
@@ -91,21 +161,24 @@ Page({
         pageSize: that.data.pageSize
       },
       success: (res) => {
-        let data = res.data.list
-        data = that.data.allVideoList.concat(data)
-        console.log('all', data)
-        console.log('cur', res.data.list)
-        that.setData({
-          pageNum: that.data.pageNum + 1,
-          curVideoList: res.data.list,
-          allVideoList: data,
-          begin_index: that.data.begin_index + 10,
-          endIndex: that.data.endIndex + 10
-        })
+        if (res.status == 0) {
+          let data = res.data.list
+          data = that.data.allVideoList.concat(data)
+          console.log('all', data)
+          console.log('cur', res.data.list)
+          that.setData({
+            pageNum: that.data.pageNum + 1,
+            curVideoList: res.data.list,
+            allVideoList: data,
+            begin_index: that.data.begin_index + 10,
+            endIndex: that.data.endIndex + 10
+          })
+        }
       }
     })
   },
 
+  // 设置当前播放视频列表
   setCurData: function() {
     let data = this.data.allVideoList.slice(this.data.begin_index, this.data.endIndex)
     this.setData({
@@ -125,7 +198,7 @@ Page({
     if (cur - pause == -9) { //翻页
       pause = (cur - 1 + 10) % 10
       this.getVideoList()
-    } else if (cur - pause == 9) { //上一页数据，如果为第一页数据则下一条循环
+    } else if (cur - pause == 9 && this.data.begin_index != 10) { //上一页数据，如果为第一页数据则下一条循环
       this.setData({
         beginIndex: this.data.beginIndex - 10,
         endIndex: this.data.endIndex - 10,
@@ -134,6 +207,8 @@ Page({
     } else if (cur > pause) { //顺序查看下一个
       pause = (cur - 1 + 10) % 10
     }
+    let id = this.data.curVideoList[cur].id
+    this.get_danmu(id)
     // console.log("当前停止第" + (pause + 1) + "视频");
     wx.createVideoContext("video" + pause).pause(); //停止视频
     wx.createVideoContext("video" + pause).seek(0); //回到0秒的状态
@@ -142,16 +217,50 @@ Page({
     this.setData({
       pre_index: cur
     })
+
   },
+
+  // 获取弹幕
+  get_danmu: function(id) {
+    let that = this
+    wx._request.request({
+      url: '/comments/get_parents_comments',
+      method: 'GET',
+      data: {
+        videoId: id,
+        pageSize: 100
+      },
+      success: (res) => {
+        if (res.status == 0) {
+          let tmp = []
+          for (let i = 0; i < res.data.list.length; i++) {
+            let tmp_item = [{
+              text: res.data.list[i].comment, //弹幕内容
+              color: that.getRandomColor(), //弹幕颜色
+              time: ~~(Math.random() * 10) //弹幕播放的时间s 必须是整数
+            }]
+            tmp = tmp.concat(tmp_item)
+          }
+          that.setData({
+            danmu: tmp
+          })
+        }
+      }
+    })
+  },
+
 
   //打开评论时锁定组件滑动
   catchTouchMove: function(res) {
     return true
   },
 
+  // 页面滑动
   switchTab: function(event) {
     let cur = event.detail.current
-    // console.log(cur)
+    if(cur!=2){
+      this.pause_cur_video()
+    }
     this.setData({
       TabCur: cur
     })
@@ -190,7 +299,6 @@ Page({
       camera: 'back',
       success: function(res) {
         if (res.size > 3 * 1024 * 1024) {
-          console.log('视频过大')
           wx.showToast({
             title: '请选择小于10M视频',
             icon: 'none',
@@ -199,6 +307,7 @@ Page({
           })
           return false
         } else {
+          this.pause_cur_video()
           wx.navigateTo({
             url: '../upload_videos/index?src=' + res.tempFilePath + '&size=' + res.size,
           })
@@ -244,7 +353,6 @@ Page({
                         code: code
                       },
                       success: function(data) {
-                        console.log('sss', data.data.data.id)
                         //4.解密成功后 获取自己服务器返回的结果
                         if (data.data.status == 0) {
                           //设置sessionId,之后可以通过该get函数得到session
@@ -272,6 +380,7 @@ Page({
       }
     })
   },
+
   bindGetUserInfo: function(e) {
     console.log(e)
     if (e.detail.userInfo) {
@@ -292,7 +401,9 @@ Page({
     }
   },
 
+  // 我的视频详情
   myVideoDetail: function(e) {
+    this.pause_cur_video()
     wx.navigateTo({
       url: '../video/video?id=' + e.currentTarget.dataset.id,
     })
@@ -325,7 +436,6 @@ Page({
         videoId: id
       },
       success: (res) => {
-        console.log(res)
         var tmp_isLike = 'curVideoList[' + index + '].isLike'
         var tmp_likeCount = 'curVideoList[' + index + '].likeCount'
         var likeCount = that.data.curVideoList[index].likeCount
@@ -349,7 +459,6 @@ Page({
         videoId: id
       },
       success: (res) => {
-        console.log(res)
         var tmp_isLike = 'curVideoList[' + index + '].isLike'
         var tmp_likeCount = 'curVideoList[' + index + '].likeCount'
         var likeCount = that.data.curVideoList[index].likeCount
@@ -367,7 +476,6 @@ Page({
       comment_input: e.detail.value,
       reply_content_num: e.detail.value.length
     })
-    console.log('输入评论', e.detail.value, e.detail.value.length)
   },
 
   //添加父级评论
@@ -397,7 +505,6 @@ Page({
           })
           var commentCount = 'curVideoList[' + index + '].commentCount'
           var tmp_commentCount = that.data.curVideoList[index].commentCount + 1
-          console.log(tmp_commentCount)
           that.setData({
             [commentCount]: tmp_commentCount
           })
@@ -413,15 +520,6 @@ Page({
     }
   },
 
-  // 点击喜欢
-  // bindLike: function(e) {
-  //   let id = e.target.dataset.id
-  //   let index = e.target.dataset.index
-  //   console.log(id, index)
-  //   this.add_like(id, index)
-  //   // this.get_parents_comments(id)
-  // },
-
   // 打开或关闭评论栏
   switchMessage: function(e) {
     let id = e.target.dataset.id
@@ -431,7 +529,6 @@ Page({
         message_flag: false,
         cur_comment_list: []
       })
-
       console.log("关闭")
     } else {
       this.setData({
@@ -441,6 +538,7 @@ Page({
       console.log("打开")
     }
   },
+
   // 获取视频一级评论 
   refresh_parents_comments: function(e) {
     let id = e.target.dataset.id
@@ -466,6 +564,7 @@ Page({
       }
     })
   },
+
   // 获取视频一级评论 
   get_parents_comments: function(id, index) {
     let that = this
@@ -489,6 +588,7 @@ Page({
       }
     })
   },
+
   // 回复&发表评论
   switchReply: function(e) {
     if (this.data.reply_flag == true) {

@@ -7,7 +7,7 @@
 <video class='video' src='{{video_info.videoPath}}'></video>
 
 <view class='videoDesc text-white'>{{video_info.videoDesc}}</view>
-<button class=' btn hollow btn-delete bg-cyan' bindtap='delete_video' data-id='{{item.id}}' data-index='{{index}}'>删除</button>
+<button wx:if='{{userId==video_info.userId}}' class=' btn hollow btn-delete bg-cyan' bindtap='delete_video' >删除</button>
 
 <scroll-view class="message-list " scroll-y style="width: 100%">
   <!-- 评论列表 -->

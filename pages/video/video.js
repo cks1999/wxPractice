@@ -5,6 +5,7 @@ Page({
     StatusBar: app.globalData.StatusBar, //顶部状态栏高度
     CustomBar: app.globalData.CustomBar, //顶部导航栏高度
     id: null,
+    userId: wx.getStorageSync("userId"),
     video_info: [],
     reply_flag: false,
     comment_input: '',
@@ -100,6 +101,7 @@ Page({
     })
     this.get_video()
     this.get_parents_comments()
+    console.log(this.data.userId,)
   },
 
   // 刪除視頻

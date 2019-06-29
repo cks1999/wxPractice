@@ -1,0 +1,28 @@
+<cu-custom bgColor="bg-grey" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">{{title}}</view>
+</cu-custom>
+
+<scroll-view scroll-y style="width: 100%;height:auto;" class="my-release">
+  <view>
+    <view class="lefts" style='margin-left:25rpx;'>
+      <block wx:for="{{video_list}}" wx:key="">
+        <template is="item" data="{{...item}}" wx:if="{{index%2==0}}"></template>
+      </block>
+    </view>
+    <view class="rights" style='margin-right:25rpx;'>
+      <block wx:for="{{video_list}}" wx:key="">
+        <template is="item" data="{{...item}}" wx:if="{{index%2==1}}"></template>
+      </block>
+    </view>
+  </view>
+
+  <template name="item">
+    <view class="items" bindtap='myVideoDetail' data-id='{{id}}'>
+      <image class="item-imgs" src="{{coverPath}}" mode="widthFix"></image>
+      <view class="item-title-boxs">
+        <view url="url" class="item-titles">{{videoDesc}}</view>
+      </view>
+    </view>
+  </template>
+</scroll-view>

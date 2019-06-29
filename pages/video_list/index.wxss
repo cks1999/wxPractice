@@ -1,0 +1,84 @@
+
+/* 瀑布 */
+
+.contents {
+  margin: 0 30rpx;
+  text-align: justify;
+}
+
+.items {
+  background-color: #fff;
+  margin: 1%;
+  margin-bottom: 20rpx;
+  display: inline-block;
+  border-radius: 20rpx;
+  width: 100%;
+}
+
+.item-imgs {
+  width: 100%;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+}
+
+.item-titles {
+  font-size: 24rpx;
+  text-indent: 15rpx;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-family: 'PingFang SC-Medium';
+  color: #1e1e1e;
+  margin: 15rpx;
+  line-height: 27rpx;
+}
+
+.items .names {
+  display: flex;
+  padding: 0 15rpx;
+  margin-top: 20rpx;
+  padding-bottom: 10rpx;
+  align-items: center;
+  font-size: 22rpx;
+  color: #1e1e1e;
+  font-family: 'PingFang SC-Medium';
+}
+
+.names image {
+  flex: 0 0 30rpx;
+}
+
+.item-title-boxs {
+  display: flex;
+  position: relative;
+}
+
+.name-titles {
+  flex: 1;
+  margin-left: 18rpx;
+  margin-right: 20rpx;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.names text:last-child {
+  flex: 0 0 30rpx;
+  color: #c4c4c4;
+  text-decoration: underline;
+  line-height: 10rpx;
+}
+
+.lefts, .rights {
+  display: inline-block;
+  vertical-align: top;
+  width: 45%;
+}
+
+.rights {
+  float: right;
+}
