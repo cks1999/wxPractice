@@ -1,14 +1,46 @@
-<cu-custom bgColor="bg-gradual-grey" isBack="{{true}}">
+<cu-custom bgColor="bg-grey" isBack="{{true}}">
   <view slot="backText">返回</view>
-  <!-- <view slot="content"></view> -->
+  <view slot="content">视频详情</view>
 </cu-custom>
 
 
 <video class='video' src='{{video_info.videoPath}}'></video>
 
-<text class='videoDesc'>{{video_info.videoDesc}}</text>
+<view class='videoDesc text-white'>{{video_info.videoDesc}}</view>
+<button class=' btn hollow btn-delete bg-cyan' bindtap='delete_video' data-id='{{item.id}}' data-index='{{index}}'>删除</button>
 
-<view class='video_info'>
-  <image class='avatar' src='{{video_info.avatarUrl}}'></image>
-  <view class='publisherNickname'>{{video_info.publisherNickname}}</view>
-</view>
+<scroll-view class="message-list " scroll-y style="width: 100%">
+  <!-- 评论列表 -->
+  <view class="cu-list menu-avatar " wx:for='{{cur_comment_list}}' wx:key>
+    <view class="cu-item " style='background-color:grey;'>
+      <view class="cu-avatar round lg " style="background-image:url({{item.avatarUrlOfFromUser}});"></view>
+      <view class="content ">
+        <view class="text-grey text-white">{{item.nicknameOfFromUser}}</view>
+        <view class="text-gray  flex text-lg ">
+          <text class="text-sm ">{{item.updateTime}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='comment-card' bindtap='switchReply'>{{item.comment}}</view>
+  </view>
+
+  <!-- 评论框 -->
+  <view class='comment-box' wx:if='{{reply_flag}}'>
+    <view class='reply_content_num'>{{reply_content_num}}/100字</view>
+    <button class='primary btn hollow bg-gradual-blue' bindtap='switchReply' style='float:right;width:150rpx;border-radius:50rpx;z-index:9999;font-size:26rpx;'>取消</button>
+    <button class='primary btn hollow bg-gradual-green' bindtap='add_comments' style='float:right;width:150rpx;border-radius:50rpx;z-index:9999;font-size:26rpx;' data-id='{{item.id}}' data-index='{{index}}'>发布</button>
+    <textarea bindinput='comment_input' maxlength='100'></textarea>
+  </view>
+  <view style=' padding-top:150rpx;'></view>
+
+
+  <view class='message-list-foot-chat' bindtap='switchReply'>
+    <image class='message-list-foot-avatar' src='{{avatarUrl}}'></image>
+    <view class='message-list-foot-ipout shadow'>
+      <text style='font-size:32rpx;margin:3rpx 30rpx;' class='text-white'>评论一下、我顶你上去</text>
+      <text class="cuIcon-emojifill text-grey" style=''></text>
+    </view>
+    <view class=" message-list-foot-send shadow text-white">发送</view>
+
+  </view>
+</scroll-view>

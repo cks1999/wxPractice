@@ -1,5 +1,4 @@
 const app = getApp()
-import login from '../../utils/init.js'
 var util = require('../../utils/util');
 Page({
   data: {
@@ -21,35 +20,7 @@ Page({
         text: '第一个', //弹幕内容
         color: '#ff0000', //弹幕颜色
         time: ~~(Math.random() * 3) //弹幕播放的时间s 必须是整数
-      },
-      {
-        text: '这是一条弹幕',
-        color: '#00f',
-        time: ~~(Math.random() * 3)
-      }, {
-        text: '第一个', //弹幕内容
-        color: '#ff0000', //弹幕颜色
-        time: ~~(Math.random() * 3) //弹幕播放的时间s 必须是整数
-      },
-      {
-        text: '这是一条弹幕',
-        color: '#00f',
-        time: ~~(Math.random() * 3)
-      },
-      {
-        text: '这是一条弹幕',
-        color: '#00f',
-        time: ~~(Math.random() * 3)
-      }, {
-        text: '第一个', //弹幕内容
-        color: '#ff0000', //弹幕颜色
-        time: ~~(Math.random() * 3) //弹幕播放的时间s 必须是整数
-      },
-      {
-        text: '这是一条弹幕',
-        color: '#00f',
-        time: ~~(Math.random() * 3)
-      },
+      }
     ],
     StatusBar: app.globalData.StatusBar, //顶部状态栏高度
     CustomBar: app.globalData.CustomBar, //顶部导航栏高度
@@ -59,36 +30,37 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     TabCur: 0,
     scrollLeft: 0,
-    none_avatarUrl: 'https://gitee.com/TianYuanXiaoCaiZi/miscellaneous/raw/master/none.png',
-    //正式
+    none_avatarUrl: 'https://gitee.com/TianYuanXiaoCaiZi/miscellaneous/raw/master/none.png', //匿名头像url
     pageNum: 1, //视频页数
-    pageSize: 10,
-    allVideoList: [],
-    curVideoList: [],
-    begin_index: 0,
-    endIndex: 10,
-    pre_index: 0,
-    my_release: [],
+    pageSize: 10, //每次获取视频数量
+    allVideoList: [], //获取视频总列表、用于翻上一页
+    curVideoList: [], //当前显示视频列表，大小为pageSize
+    begin_index: 0, //用于获取上一页
+    endIndex: 10, //用于获取上一页
+    pre_index: 0, //视频翻页时，上一页下标
+    my_release: [], //我的发布视频列表
     clientHeight: wx.getSystemInfoSync().screenHeight, //获取当前手机屏幕的高度
     message_flag: false, //视频评论是否打开
-    reply_flag: false,
-    comment_input: '',
-    cur_comment_list: [],
-    reply_content_num:0
-
+    reply_flag: false, //回复框打开flag
+    comment_input: '', //回复输入信息
+    cur_comment_list: [], //回复列表
+    reply_content_num: 0 //当前评论数量
   },
+
+  //生命周期函数
   onLoad: function() {
-    this.login();
+    this.login(); //登陆
+    this.getMyVideoList() //获取我的视频
+    this.getVideoList() //获取视频列表
+  },
+  //刷新我的视频
+  my_Release_Refresh: function() {
     this.getMyVideoList()
-    this.getVideoList()
   },
-
-
-  // 获取一级评论信息
-  getMessages: function(e) {
-
+  // 每次返回主頁面，刷新我的發佈視頻列表
+  onShow: function() {
+    this.getMyVideoList()
   },
-
   //获取自己视频列表
   getMyVideoList: function() {
     var that = this
@@ -100,8 +72,7 @@ Page({
         pageSize: 100
       },
       success: (res) => {
-        // console.log(res)
-        console.log('ss', res.data.list)
+        console.log('我的视频列表', res.data.list)
         that.setData({
           my_release: res.data.list
         })
@@ -121,10 +92,6 @@ Page({
       },
       success: (res) => {
         let data = res.data.list
-        // for (var i = 0; i < data.length; i++) {
-        //   console.log(data[i].id)
-        //   data[i].isLike = that.isLike(data[i].id)
-        // }
         data = that.data.allVideoList.concat(data)
         console.log('all', data)
         console.log('cur', res.data.list)
@@ -141,13 +108,11 @@ Page({
 
   setCurData: function() {
     let data = this.data.allVideoList.slice(this.data.begin_index, this.data.endIndex)
-    console.log('setCurData', data)
     this.setData({
       begin_index: this.data.begin_index + 10,
       endIndex: this.data.endIndex + 10,
-      currentTarget: data
+      curVideoList: data
     })
-
   },
 
   /**
@@ -312,7 +277,6 @@ Page({
     if (e.detail.userInfo) {
       this.login()
     } else {
-
       //用户按了拒绝按钮
       wx.showModal({
         title: '警告',
@@ -385,7 +349,6 @@ Page({
         videoId: id
       },
       success: (res) => {
-        // return res.status
         console.log(res)
         var tmp_isLike = 'curVideoList[' + index + '].isLike'
         var tmp_likeCount = 'curVideoList[' + index + '].likeCount'
@@ -397,12 +360,6 @@ Page({
       }
     })
   },
-
-
-
-
-
-  //获取视频二级评论
 
   // 输入评论
   comment_input: function(e) {
@@ -444,7 +401,7 @@ Page({
           that.setData({
             [commentCount]: tmp_commentCount
           })
-          that.get_parents_comments(id,index)
+          that.get_parents_comments(id, index)
         }
       })
     } else {
@@ -499,7 +456,7 @@ Page({
       success: (res) => {
         console.log(res.data.list)
         let tmp = res.data.list
-        for (var i = 0; i < tmp.length;i++){
+        for (var i = 0; i < tmp.length; i++) {
           var stamp = tmp[i].updateTime
           tmp[i].updateTime = util.formatTime(stamp, 'Y-M-D h:m:s')
         }

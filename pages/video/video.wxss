@@ -1,5 +1,5 @@
 page {
-  background-color: white;
+  background-color: grey;
 }
 
 video {
@@ -8,31 +8,120 @@ video {
   /* margin-top:200rpx; */
 }
 
-.video_info {
-  height: auto;
-  width: 100%;
-  /* margin-bottom: 50rpx; */
-   border-bottom: 0.5rpx solid rgb(228, 222, 222);
-}
-
-.avatar {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 100rpx;
-  margin: 30rpx;
-  float: left;
-}
-
-.publisherNickname {
-  width: 400rpx;
-  height: 100rpx;
-  font-size: 32prx;
-  margin: 30rpx;
-}
-
 .videoDesc {
-  width: 100%;
+  width: 70%;
   font-size: 40rpx;
   font-style: bold;
-  margin: 40rpx 30rpx;
+  float: left;
+  margin: 25rpx 5rpx 40rpx 40rpx;
+  grey-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-indent: 40rpx;
+}
+
+.btn-delete {
+  float: right;
+  width: 20%;
+  margin: 30rpx 15rpx 40rpx 10rpx;
+  z-index: 9999;
+  font-size: 26rpx;
+}
+
+.reply_content_num {
+  float: left;
+  margin-left: 30rpx;
+}
+
+.message-list {
+  bottom: 0rpx;
+  height: auto;
+  width: 100%;
+  z-index: 9999;
+  background-color: grey;
+}
+
+.message-list-foot-chat {
+  background-color: grey;
+  position: fixed;
+  bottom: 0rpx;
+}
+
+.message-list-foot-avatar {
+  height: 75rpx;
+  width: 75rpx;
+  border-radius: 75rpx;
+  float: left;
+  margin: 20rpx 10rpx 20rpx 30rpx;
+}
+
+.message-list-foot-ipout {
+  width: 470rpx;
+  height: 65rpx;
+  float: left;
+  margin: 25rpx 30rpx;
+  font-size: 30rpx;
+  border: 1rpx solid rgb(218, 211, 211);
+  border-radius: 30rpx;
+}
+
+.message-list-foot-send {
+  width: 70rpx;
+  height: auto;
+  margin: 40rpx auto;
+  float: right;
+  font-size: 32rpx;
+}
+
+.comment-card {
+  width: 500rpx;
+  height: auto;
+  font-size: 32rpx;
+  margin-left: 150rpx;
+  color: white;
+}
+
+textarea {
+  width: 100%;
+  height: 140px;
+  margin: 20rpx 0;
+  margin-top: 100rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #ddd;
+  border-radius: 5rpx;
+  padding: 10rpx;
+  font-size: 28rpx;
+}
+
+/* 评论框 */
+
+.comment-box {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  box-sizing: border-box;
+  padding: 3%;
+}
+
+.comment-bottom {
+  position: fixed;
+  display: inline-block;
+}
+
+.comment-box textarea {
+  width: 100%;
+  height: 140px;
+  margin: 20rpx 0;
+  margin-top: 100rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #ddd;
+  border-radius: 5rpx;
+  padding: 10rpx;
+  font-size: 28rpx;
 }
